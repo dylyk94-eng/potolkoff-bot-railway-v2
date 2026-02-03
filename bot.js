@@ -13,7 +13,7 @@ const CEILINGS = {
     price: 'от 2000 ₽/м²',
     priceNum: 2000,
     desc: 'Эффект шёлковой ткани с мягким отражением света. Идеально для спален и гостиных.',
-    img: 'https://potolok-art.ru/wp-content/uploads/2/6/5/2658826500e5728646f9055819074092.jpeg',
+    img: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&q=80',
     features: ['⏱ Монтаж за 4 часа', '🔧 Гарантия 15 лет', '🎁 2 светильника в подарок'],
     popular: true,
     views: 187
@@ -401,7 +401,7 @@ function getMainMenu() {
 bot.start(async (ctx) => {
   ctx.session.source = ctx.startPayload || 'organic';
   await ctx.replyWithPhoto(
-    'https://potolok-art.ru/wp-content/uploads/2/6/5/2658826500e5728646f9055819074092.jpeg',
+    'https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&q=80',
     {
       caption: `👋 <b>Привет, ${ctx.from.first_name}!</b> ` +
       `Мы — студия <b>Потолкоф</b>. Делаем качественный ремонт и устанавливаем натяжные потолки в Улан-Удэ с 2015 года. ` +
@@ -425,7 +425,7 @@ bot.use(async (ctx, next) => {
   if (!ctx.session.welcomed && ctx.message && !ctx.message.text.startsWith('/')) {
     ctx.session.welcomed = true;
     await ctx.replyWithPhoto(
-      'https://potolok-art.ru/wp-content/uploads/2/6/5/2658826500e5728646f9055819074092.jpeg',
+      'https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&q=80',
       {
         caption: `👋 <b>Привет, ${ctx.from.first_name}!</b> ` +
         `Мы — студия <b>Потолкоф</b>. Делаем качественный ремонт и устанавливаем натяжные потолки в Улан-Удэ с 2015 года. ` +
@@ -451,7 +451,7 @@ bot.use(async (ctx, next) => {
 bot.action('back_home', async (ctx) => {
   await ctx.deleteMessage().catch(() => {});
   await ctx.replyWithPhoto(
-    'https://potolok-art.ru/wp-content/uploads/2/6/5/2658826500e5728646f9055819074092.jpeg',
+    'https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&q=80',
     {
       caption: '<b>🏠 Главное меню</b> Выберите интересующий раздел:',
       parse_mode: 'HTML',
@@ -468,7 +468,7 @@ bot.action('menu_ceilings', async (ctx) => {
   await ctx.editMessageMedia(
     {
       type: 'photo',
-      media: 'https://potolok-art.ru/wp-content/uploads/2/6/5/2658826500e5728646f9055819074092.jpeg',
+      media: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&q=80',
       caption: '<b>✨ НАТЯЖНЫЕ ПОТОЛКИ</b> ' +
       '🎯 <b>Быстрый расчёт стоимости:</b> ' +
       '• 20 м² = от 36.000₽ ' +
@@ -912,3 +912,4 @@ app.listen(PORT, async () => {
 // Graceful shutdown
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'));
+
