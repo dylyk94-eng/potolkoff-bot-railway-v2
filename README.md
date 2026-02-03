@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🤖 Potolkoff Telegram Bot - Railway Deployment
 
 Clean production version of Telegram bot for Potolkoff studio.
@@ -54,3 +55,7 @@ npm start
 ## 📄 License
 
 MIT License
+=======
+# potolkoff-bot-railway-v2
+Clean version of Potolkoff Telegram bot for Railway deployment with webhook support
+>>>>>>> origin/main

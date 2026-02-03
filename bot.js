@@ -13,7 +13,6 @@ const CEILINGS = {
     price: 'от 2000 ₽/м²',
     priceNum: 2000,
     desc: 'Эффект шёлковой ткани с мягким отражением света. Идеально для спален и гостиных.',
-    img: 'https://potolok-art.ru/wp-content/uploads/2/6/5/2658826500e5728646f9055819074092.jpeg',
     features: ['⏱ Монтаж за 4 часа', '🔧 Гарантия 15 лет', '🎁 2 светильника в подарок'],
     popular: true,
     views: 187
@@ -23,7 +22,6 @@ const CEILINGS = {
     price: 'от 1800 ₽/м²',
     priceNum: 1800,
     desc: 'Классический вариант. Выглядит как идеально ровная побелка без отражений.',
-    img: 'https://sk-potolok.ru/wp-content/uploads/2018/06/matoviy-natyazhnoy-potolok-foto-v-interere.jpg',
     features: ['⏱ Монтаж за 3 часа', '🔧 Гарантия 15 лет', '💰 Самый доступный'],
     popular: false,
     views: 143
@@ -33,7 +31,6 @@ const CEILINGS = {
     price: 'от 1900 ₽/м²',
     priceNum: 1900,
     desc: 'Зеркальный эффект визуально увеличивает пространство. Яркие, эффектные.',
-    img: 'https://potolki-lider.ru/wp-content/uploads/2019/10/glyancevye-potolki-v-zale.jpg',
     features: ['⏱ Монтаж за 4 часа', '🔧 Гарантия 15 лет', '📏 +30% к высоте визуально'],
     popular: false,
     views: 156
@@ -43,7 +40,6 @@ const CEILINGS = {
     price: 'от 4500 ₽/м²',
     priceNum: 4500,
     desc: 'Современное решение. LED-линии создают эффект парения и заменяют люстры.',
-    img: 'https://ferico.by/images/new/osveshchenie/linii/linii-1.jpg',
     features: ['⏱ Монтаж за 1 день', '💡 Экономия на люстрах', '🎨 Любой цвет свечения'],
     popular: false,
     views: 98
@@ -57,7 +53,6 @@ const RENOVATION = {
     price: 'от 15.000 ₽/м²',
     priceNum: 15000,
     desc: 'Полный цикл работ: демонтаж, электрика, сантехника, отделка, клининг.',
-    img: 'https://design-p.ru/wp-content/uploads/2018/10/remont-kvartiry-pod-klyuch-v-novostrojke.jpg',
     features: ['📋 Договор с фиксацией сроков', '🏗 Средний срок: 28 дней', '🧹 Уборка включена'],
     popular: true,
     views: 234
@@ -67,7 +62,6 @@ const RENOVATION = {
     price: 'от 8.000 ₽/м²',
     priceNum: 8000,
     desc: 'Предчистовая отделка. Стяжка, штукатурка, электрика готовы к финишу.',
-    img: 'https://www.fsk.ru/upload/iblock/88b/88b532729792010834199999.jpg',
     features: ['⚡️ Быстрый старт отделки', '💰 Экономия до 40%', '🏗 Срок: 14-21 день'],
     popular: false,
     views: 167
@@ -77,7 +71,6 @@ const RENOVATION = {
     price: 'от 80.000 ₽',
     priceNum: 80000,
     desc: 'Плитка, гидроизоляция, разводка труб, установка сантехники.',
-    img: 'https://sanuzel-remont.ru/wp-content/uploads/2020/05/remont-vannoy-komnaty-pod-klyuch-moskva.jpg',
     features: ['💧 Гарантия на гидроизоляцию', '🚿 Монтаж сантехники', '🏗 Срок: 7-10 дней'],
     popular: false,
     views: 201
@@ -87,7 +80,6 @@ const RENOVATION = {
     price: 'от 1.500 ₽/м²',
     priceNum: 1500,
     desc: '3D-визуализация, планировки, подбор материалов, чертежи для строителей.',
-    img: 'https://arch-kon.ru/wp-content/uploads/2020/09/dizayn-proekt-kvartiry.jpg',
     features: ['🖼 До 10 визуализаций', '📐 Все чертежи', '🎁 Бесплатно при ремонте'],
     popular: false,
     views: 189
@@ -127,12 +119,12 @@ function quickCalc(pricePerM2, area) {
 
 const orderWizard = new Scenes.WizardScene(
   'ORDER_SCENE',
-  
+
   // Шаг 1: Площадь
   async (ctx) => {
     const interest = ctx.wizard.state.interest || 'Консультация';
     const priceHint = ctx.wizard.state.priceNum ? ` <i>Примерная стоимость будет рассчитана автоматически</i>` : '';
-    
+
     await ctx.reply(
       `🎯 <b>Шаг 1 из 3</b> ▓▓▓░░░ ` +
       `Вы выбрали: <b>${interest}</b> ` +
@@ -149,13 +141,13 @@ const orderWizard = new Scenes.WizardScene(
     );
     return ctx.wizard.next();
   },
-  
+
   // Шаг 2: Контакт
   async (ctx) => {
     if (ctx.message?.text === '❌ Отмена') return cancel(ctx);
-    
+
     ctx.wizard.state.area = ctx.message.text;
-    
+
     // Показываем примерную стоимость
     let costEstimate = '';
     if (ctx.wizard.state.priceNum) {
@@ -165,7 +157,7 @@ const orderWizard = new Scenes.WizardScene(
         costEstimate = ` 💰 <b>Примерная стоимость: ${estimate.toLocaleString('ru')} ₽</b> `;
       }
     }
-    
+
     await ctx.reply(
       `🎯 <b>Шаг 2 из 3</b> ▓▓▓▓░░ ` +
       `📐 Площадь: ${ctx.wizard.state.area}${costEstimate} ` +
@@ -182,17 +174,17 @@ const orderWizard = new Scenes.WizardScene(
     );
     return ctx.wizard.next();
   },
-  
+
   // Шаг 2.5: Если ввод вручную
   async (ctx) => {
     if (ctx.message?.text === '❌ Отмена') return cancel(ctx);
-    
+
     // Если отправлен контакт - сохраняем и идём дальше
     if (ctx.message.contact) {
       ctx.wizard.state.phone = ctx.message.contact.phone_number;
       return ctx.wizard.selectStep(3);
     }
-    
+
     // Если текст "Введу вручную" - просим ввести
     if (ctx.message.text === 'Введу номер вручную') {
       await ctx.reply(
@@ -205,7 +197,7 @@ const orderWizard = new Scenes.WizardScene(
       );
       return;
     }
-    
+
     // Валидация введённого номера
     const phone = ctx.message.text.replace(/[\s\-\(\)]/g, '');
     if (!/^[\+]?[78]\d{10}$/.test(phone)) {
@@ -215,15 +207,15 @@ const orderWizard = new Scenes.WizardScene(
       );
       return;
     }
-    
+
     ctx.wizard.state.phone = phone;
     return ctx.wizard.next();
   },
-  
+
   // Шаг 3: Район
   async (ctx) => {
     if (ctx.message?.text === '❌ Отмена') return cancel(ctx);
-    
+
     await ctx.reply(
       `🎯 <b>Шаг 3 из 3</b> ▓▓▓▓▓▓ ` +
       `📍 <b>В каком районе находится объект?</b> ` +
@@ -240,13 +232,13 @@ const orderWizard = new Scenes.WizardScene(
     );
     return ctx.wizard.next();
   },
-  
+
   // Финал: Красивое подтверждение
   async (ctx) => {
     if (ctx.message?.text === '❌ Отмена') return cancel(ctx);
-    
+
     ctx.wizard.state.district = ctx.message.text;
-    
+
     const data = {
       interest: ctx.wizard.state.interest,
       area: ctx.wizard.state.area,
@@ -257,10 +249,10 @@ const orderWizard = new Scenes.WizardScene(
       typeTag: ctx.wizard.state.type === 'renovation' ? '#ремонт' : '#потолки',
       timestamp: new Date().toLocaleString('ru')
     };
-    
+
     // Генерируем номер заявки
     const orderNum = Math.floor(Math.random() * 9000) + 1000;
-    
+
     // Сообщение для админа/канала
     const adminMsg = `
 🔥 <b>НОВАЯ ЗАЯВКА #${orderNum}</b> ${data.typeTag}
@@ -278,7 +270,7 @@ const orderWizard = new Scenes.WizardScene(
 
 #id${data.user.id} #новая #горячая
 `;
-    
+
     try {
       // Отправляем в канал заявок
       if (process.env.ORDER_CHANNEL_ID) {
@@ -288,7 +280,7 @@ const orderWizard = new Scenes.WizardScene(
           { parse_mode: 'HTML' }
         );
       }
-      
+
       // Отправляем админу
       if (process.env.ADMIN_ID) {
         await ctx.telegram.sendMessage(
@@ -297,26 +289,25 @@ const orderWizard = new Scenes.WizardScene(
           { parse_mode: 'HTML' }
         );
       }
-      
-      // Красивое подтверждение клиенту
-      await ctx.replyWithPhoto(
-        'https://i.imgur.com/8XyZQjM.png',
+
+      // Красивое подтверждение клиенту (ТЕКСТ вместо фото)
+      await ctx.reply(
+        `✅ <b>Заявка №${orderNum} принята!</b> ` +
+        `🎉 Отлично, ${ctx.from.first_name}! ` +
+        `Менеджер <b>Анна</b> уже набирает ваш номер. ` +
+        `⏱ Обычно перезваниваем за 3-5 минут. ` +
+        `🎁 <b>Ваши бонусы при заказе:</b> ` +
+        `✅ Бесплатный выезд замерщика ` +
+        `✅ Дизайн-проект в подарок ` +
+        `✅ Скидка 5% при заказе сегодня ` +
+        `✅ Рассрочка 0% на 6 месяцев ` +
+        `<i>Если вдруг не дозвонимся — напишем в Telegram</i>`,
         {
-          caption: `✅ <b>Заявка №${orderNum} принята!</b> ` +
-          `🎉 Отлично, ${ctx.from.first_name}! ` +
-          `Менеджер <b>Анна</b> уже набирает ваш номер. ` +
-          `⏱ Обычно перезваниваем за 3-5 минут. ` +
-          `🎁 <b>Ваши бонусы при заказе:</b> ` +
-          `✅ Бесплатный выезд замерщика ` +
-          `✅ Дизайн-проект в подарок ` +
-          `✅ Скидка 5% при заказе сегодня ` +
-          `✅ Рассрочка 0% на 6 месяцев ` +
-          `<i>Если вдруг не дозвонимся — напишем в Telegram</i>`,
           parse_mode: 'HTML',
           ...Markup.removeKeyboard()
         }
       );
-      
+
       // Пауза и доп. информация
       setTimeout(async () => {
         await ctx.reply(
@@ -341,7 +332,7 @@ const orderWizard = new Scenes.WizardScene(
         { ...Markup.removeKeyboard() }
       );
     }
-    
+
     return ctx.scene.leave();
   }
 );
@@ -397,13 +388,34 @@ function getMainMenu() {
   ]);
 }
 
-// Команда /start (красивое приветствие)
+// Команда /start (красивое приветствие) - ТЕКСТ вместо фото
 bot.start(async (ctx) => {
   ctx.session.source = ctx.startPayload || 'organic';
-  await ctx.replyWithPhoto(
-    'https://potolok-art.ru/wp-content/uploads/2/6/5/2658826500e5728646f9055819074092.jpeg',
+  await ctx.reply(
+    `👋 <b>Привет, ${ctx.from.first_name}!</b> ` +
+    `Мы — студия <b>Потолкоф</b>. Делаем качественный ремонт и устанавливаем натяжные потолки в Улан-Удэ с 2015 года. ` +
+    `<b>Почему выбирают нас:</b> ` +
+    `✅ Более 2000 довольных клиентов ` +
+    `✅ Гарантия 15 лет на потолки / 5 лет на ремонт ` +
+    `✅ Работаем по договору с фиксацией цены ` +
+    `✅ Средний срок ремонта: 21 день ` +
+    `✅ Рассрочка 0% до 12 месяцев ` +
+    `🎁 <b>Акция сегодня:</b> Замер и дизайн-проект БЕСПЛАТНО! ` +
+    `⏰ До конца акции: <b>${getPromoTimeLeft()}</b> ` +
+    `👇 <b>Что вас интересует?</b>`,
     {
-      caption: `👋 <b>Привет, ${ctx.from.first_name}!</b> ` +
+      parse_mode: 'HTML',
+      ...getMainMenu()
+    }
+  );
+});
+
+// Middleware для автоматического приветствия новых пользователей - ТЕКСТ вместо фото
+bot.use(async (ctx, next) => {
+  if (!ctx.session.welcomed && ctx.message && !ctx.message.text.startsWith('/')) {
+    ctx.session.welcomed = true;
+    await ctx.reply(
+      `👋 <b>Привет, ${ctx.from.first_name}!</b> ` +
       `Мы — студия <b>Потолкоф</b>. Делаем качественный ремонт и устанавливаем натяжные потолки в Улан-Удэ с 2015 года. ` +
       `<b>Почему выбирают нас:</b> ` +
       `✅ Более 2000 довольных клиентов ` +
@@ -414,30 +426,7 @@ bot.start(async (ctx) => {
       `🎁 <b>Акция сегодня:</b> Замер и дизайн-проект БЕСПЛАТНО! ` +
       `⏰ До конца акции: <b>${getPromoTimeLeft()}</b> ` +
       `👇 <b>Что вас интересует?</b>`,
-      parse_mode: 'HTML',
-      ...getMainMenu()
-    }
-  );
-});
-
-// Middleware для автоматического приветствия новых пользователей
-bot.use(async (ctx, next) => {
-  if (!ctx.session.welcomed && ctx.message && !ctx.message.text.startsWith('/')) {
-    ctx.session.welcomed = true;
-    await ctx.replyWithPhoto(
-      'https://potolok-art.ru/wp-content/uploads/2/6/5/2658826500e5728646f9055819074092.jpeg',
       {
-        caption: `👋 <b>Привет, ${ctx.from.first_name}!</b> ` +
-        `Мы — студия <b>Потолкоф</b>. Делаем качественный ремонт и устанавливаем натяжные потолки в Улан-Удэ с 2015 года. ` +
-        `<b>Почему выбирают нас:</b> ` +
-        `✅ Более 2000 довольных клиентов ` +
-        `✅ Гарантия 15 лет на потолки / 5 лет на ремонт ` +
-        `✅ Работаем по договору с фиксацией цены ` +
-        `✅ Средний срок ремонта: 21 день ` +
-        `✅ Рассрочка 0% до 12 месяцев ` +
-        `🎁 <b>Акция сегодня:</b> Замер и дизайн-проект БЕСПЛАТНО! ` +
-        `⏰ До конца акции: <b>${getPromoTimeLeft()}</b> ` +
-        `👇 <b>Что вас интересует?</b>`,
         parse_mode: 'HTML',
         ...getMainMenu()
       }
@@ -447,17 +436,25 @@ bot.use(async (ctx, next) => {
   return next();
 });
 
-// Возврат в главное меню
+// Возврат в главное меню - ТЕКСТ вместо фото
 bot.action('back_home', async (ctx) => {
-  await ctx.deleteMessage().catch(() => {});
-  await ctx.replyWithPhoto(
-    'https://potolok-art.ru/wp-content/uploads/2/6/5/2658826500e5728646f9055819074092.jpeg',
-    {
-      caption: '<b>🏠 Главное меню</b> Выберите интересующий раздел:',
-      parse_mode: 'HTML',
-      ...getMainMenu()
-    }
-  );
+  try {
+    await ctx.editMessageText(
+      '<b>🏠 Главное меню</b> Выберите интересующий раздел:',
+      {
+        parse_mode: 'HTML',
+        ...getMainMenu()
+      }
+    );
+  } catch (e) {
+    await ctx.reply(
+      '<b>🏠 Главное меню</b> Выберите интересующий раздел:',
+      {
+        parse_mode: 'HTML',
+        ...getMainMenu()
+      }
+    );
+  }
 });
 
 // ============================================
@@ -465,11 +462,9 @@ bot.action('back_home', async (ctx) => {
 // ============================================
 
 bot.action('menu_ceilings', async (ctx) => {
-  await ctx.editMessageMedia(
-    {
-      type: 'photo',
-      media: 'https://potolok-art.ru/wp-content/uploads/2/6/5/2658826500e5728646f9055819074092.jpeg',
-      caption: '<b>✨ НАТЯЖНЫЕ ПОТОЛКИ</b> ' +
+  try {
+    await ctx.editMessageText(
+      '<b>✨ НАТЯЖНЫЕ ПОТОЛКИ</b> ' +
       '🎯 <b>Быстрый расчёт стоимости:</b> ' +
       '• 20 м² = от 36.000₽ ' +
       '• 40 м² = от 72.000₽ ' +
@@ -479,38 +474,38 @@ bot.action('menu_ceilings', async (ctx) => {
       '🎁 2 светильника в подарок при заказе ' +
       `⏰ Акция действует: <b>${getPromoTimeLeft()}</b> ` +
       'Выберите тип потолка:',
-      parse_mode: 'HTML'
-    },
-    {
-      reply_markup: Markup.inlineKeyboard([
-        [Markup.button.callback('✨ Сатин (ХИТ!) 2000₽/м²', 'view_c_satin')],
-        [Markup.button.callback('☁️ Матовый 1800₽/м²', 'view_c_matte')],
-        [Markup.button.callback('🪞 Глянец 1900₽/м²', 'view_c_gloss')],
-        [Markup.button.callback('🔦 Парящие линии 4500₽/м²', 'view_c_lines')],
-        [
-          Markup.button.callback('🧮 Калькулятор', 'calculator'),
-          Markup.button.callback('📸 Фото работ', 'portfolio_ceilings')
-        ],
-        [Markup.button.callback('🔙 В главное меню', 'back_home')]
-      ])
-    }
-  );
+      {
+        parse_mode: 'HTML',
+        reply_markup: Markup.inlineKeyboard([
+          [Markup.button.callback('✨ Сатин (ХИТ!) 2000₽/м²', 'view_c_satin')],
+          [Markup.button.callback('☁️ Матовый 1800₽/м²', 'view_c_matte')],
+          [Markup.button.callback('🪞 Глянец 1900₽/м²', 'view_c_gloss')],
+          [Markup.button.callback('🔦 Парящие линии 4500₽/м²', 'view_c_lines')],
+          [
+            Markup.button.callback('🧮 Калькулятор', 'calculator'),
+            Markup.button.callback('📸 Фото работ', 'portfolio_ceilings')
+          ],
+          [Markup.button.callback('🔙 В главное меню', 'back_home')]
+        ])
+      }
+    );
+  } catch (e) {
+    console.error('Error editing message:', e);
+  }
 });
 
-// Карточка потолка (детальная)
+// Карточка потолка (детальная) - ТЕКСТ вместо фото
 bot.action(/^view_c_(.+)$/, async (ctx) => {
   const key = ctx.match[1];
   const item = CEILINGS[key];
-  
+
   if (!item) return ctx.answerCbQuery('⚠️ Раздел недоступен');
-  
+
   const badge = item.popular ? '🔥 ХИТ ПРОДАЖ ' : '';
-  
-  await ctx.editMessageMedia(
-    {
-      type: 'photo',
-      media: item.img,
-      caption: `${badge}<b>${item.name}</b> ` +
+
+  try {
+    await ctx.editMessageText(
+      `${badge}<b>${item.name}</b> ` +
       `${item.desc} ` +
       `💰 <b>Цена: ${item.price}</b> ` +
       `<b>Что входит в стоимость:</b> ` +
@@ -521,26 +516,28 @@ bot.action(/^view_c_(.+)$/, async (ctx) => {
       `🎁 Бесплатный выезд замерщика ` +
       `🎁 Скидка 5% при заказе сегодня ` +
       `⏰ До конца акции: <b>${getPromoTimeLeft()}</b>`,
-      parse_mode: 'HTML'
-    },
-    {
-      reply_markup: Markup.inlineKeyboard([
-        [Markup.button.callback('🎁 Заказать со скидкой', `ord_c_${key}`)],
-        [
-          Markup.button.callback('📸 Ещё фото', `gallery_c_${key}`),
-          Markup.button.callback('💬 Отзывы', `reviews_c_${key}`)
-        ],
-        [Markup.button.callback('🔙 Все потолки', 'menu_ceilings')]
-      ])
-    }
-  );
+      {
+        parse_mode: 'HTML',
+        reply_markup: Markup.inlineKeyboard([
+          [Markup.button.callback('🎁 Заказать со скидкой', `ord_c_${key}`)],
+          [
+            Markup.button.callback('📸 Ещё фото', `gallery_c_${key}`),
+            Markup.button.callback('💬 Отзывы', `reviews_c_${key}`)
+          ],
+          [Markup.button.callback('🔙 Все потолки', 'menu_ceilings')]
+        ])
+      }
+    );
+  } catch (e) {
+    console.error('Error editing message:', e);
+    await ctx.answerCbQuery('⚠️ Ошибка загрузки');
+  }
 });
 
 // Запуск заявки на потолок
 bot.action(/^ord_c_(.+)$/, async (ctx) => {
   const key = ctx.match[1];
   const item = CEILINGS[key];
-  await ctx.deleteMessage().catch(() => {});
   await ctx.scene.enter('ORDER_SCENE', {
     interest: item.name,
     type: 'ceiling',
@@ -556,20 +553,24 @@ bot.action(/^gallery_c_(.+)$/, async (ctx) => {
 // Отзывы по типу потолка
 bot.action(/^reviews_c_(.+)$/, async (ctx) => {
   const ceilingReviews = REVIEWS.filter(r => r.service === 'Натяжные потолки');
-  
+
   let reviewText = '<b>⭐️ ОТЗЫВЫ О НАТЯЖНЫХ ПОТОЛКАХ</b> ';
   ceilingReviews.forEach(r => {
     reviewText += `${r.rating} <b>${r.name}</b> — ${r.date} "${r.text}" ━━━━━━━━━━ `;
   });
   reviewText += `📊 Средняя оценка: <b>4.9/5</b> (${ceilingReviews.length} отзыва)`;
-  
-  await ctx.editMessageCaption(reviewText, {
-    parse_mode: 'HTML',
-    reply_markup: Markup.inlineKeyboard([
-      [Markup.button.url('Все отзывы на Яндекс.Картах', 'https://yandex.ru/maps/')],
-      [Markup.button.callback('🔙 Назад', 'menu_ceilings')]
-    ])
-  });
+
+  try {
+    await ctx.editMessageText(reviewText, {
+      parse_mode: 'HTML',
+      reply_markup: Markup.inlineKeyboard([
+        [Markup.button.url('Все отзывы на Яндекс.Картах', 'https://yandex.ru/maps/')],
+        [Markup.button.callback('🔙 Назад', 'menu_ceilings')]
+      ])
+    });
+  } catch (e) {
+    console.error('Error editing message:', e);
+  }
 });
 
 // ============================================
@@ -577,11 +578,9 @@ bot.action(/^reviews_c_(.+)$/, async (ctx) => {
 // ============================================
 
 bot.action('menu_renovation', async (ctx) => {
-  await ctx.editMessageMedia(
-    {
-      type: 'photo',
-      media: 'https://design-p.ru/wp-content/uploads/2018/10/remont-kvartiry-pod-klyuch-v-novostrojke.jpg',
-      caption: '<b>🏗 РЕМОНТ И ОТДЕЛКА</b> ' +
+  try {
+    await ctx.editMessageText(
+      '<b>🏗 РЕМОНТ И ОТДЕЛКА</b> ' +
       '🎯 <b>Ориентиры по стоимости:</b> ' +
       '• 1-комн (35 м²) = от 525.000₽ ' +
       '• 2-комн (55 м²) = от 825.000₽ ' +
@@ -591,38 +590,38 @@ bot.action('menu_renovation', async (ctx) => {
       '🧹 Клининг после ремонта включён ' +
       `⏰ Акция: Дизайн-проект в подарок (${getPromoTimeLeft()}) ` +
       'Выберите услугу:',
-      parse_mode: 'HTML'
-    },
-    {
-      reply_markup: Markup.inlineKeyboard([
-        [Markup.button.callback('🔑 Под ключ (ХИТ!) 15.000₽/м²', 'view_r_turnkey')],
-        [Markup.button.callback('⬜ White Box 8.000₽/м²', 'view_r_whitebox')],
-        [Markup.button.callback('🛁 Санузел от 80.000₽', 'view_r_bathroom')],
-        [Markup.button.callback('🎨 Дизайн-проект 1.500₽/м²', 'view_r_design')],
-        [
-          Markup.button.callback('📸 Портфолио', 'portfolio_renovation'),
-          Markup.button.callback('⭐️ Отзывы', 'reviews_renovation')
-        ],
-        [Markup.button.callback('🔙 В главное меню', 'back_home')]
-      ])
-    }
-  );
+      {
+        parse_mode: 'HTML',
+        reply_markup: Markup.inlineKeyboard([
+          [Markup.button.callback('🔑 Под ключ (ХИТ!) 15.000₽/м²', 'view_r_turnkey')],
+          [Markup.button.callback('⬜ White Box 8.000₽/м²', 'view_r_whitebox')],
+          [Markup.button.callback('🛁 Санузел от 80.000₽', 'view_r_bathroom')],
+          [Markup.button.callback('🎨 Дизайн-проект 1.500₽/м²', 'view_r_design')],
+          [
+            Markup.button.callback('📸 Портфолио', 'portfolio_renovation'),
+            Markup.button.callback('⭐️ Отзывы', 'reviews_renovation')
+          ],
+          [Markup.button.callback('🔙 В главное меню', 'back_home')]
+        ])
+      }
+    );
+  } catch (e) {
+    console.error('Error editing message:', e);
+  }
 });
 
-// Карточка услуги ремонта
+// Карточка услуги ремонта - ТЕКСТ вместо фото
 bot.action(/^view_r_(.+)$/, async (ctx) => {
   const key = ctx.match[1];
   const item = RENOVATION[key];
-  
+
   if (!item) return ctx.answerCbQuery('⚠️ Раздел недоступен');
-  
+
   const badge = item.popular ? '🔥 САМЫЙ ПОПУЛЯРНЫЙ ' : '';
-  
-  await ctx.editMessageMedia(
-    {
-      type: 'photo',
-      media: item.img,
-      caption: `${badge}<b>${item.name}</b> ` +
+
+  try {
+    await ctx.editMessageText(
+      `${badge}<b>${item.name}</b> ` +
       `${item.desc} ` +
       `💰 <b>Стоимость: ${item.price}</b> ` +
       `<b>Что входит:</b> ` +
@@ -633,26 +632,28 @@ bot.action(/^view_r_(.+)$/, async (ctx) => {
       `🎁 Бесплатный выезд прораба ` +
       `🎁 Скидка 7% при оплате за 2 этапа ` +
       `⏰ До конца акции: <b>${getPromoTimeLeft()}</b>`,
-      parse_mode: 'HTML'
-    },
-    {
-      reply_markup: Markup.inlineKeyboard([
-        [Markup.button.callback('📝 Заказать с бонусами', `ord_r_${key}`)],
-        [
-          Markup.button.callback('📸 Примеры работ', `gallery_r_${key}`),
-          Markup.button.callback('💬 Отзывы', `reviews_r_${key}`)
-        ],
-        [Markup.button.callback('🔙 Все услуги', 'menu_renovation')]
-      ])
-    }
-  );
+      {
+        parse_mode: 'HTML',
+        reply_markup: Markup.inlineKeyboard([
+          [Markup.button.callback('📝 Заказать с бонусами', `ord_r_${key}`)],
+          [
+            Markup.button.callback('📸 Примеры работ', `gallery_r_${key}`),
+            Markup.button.callback('💬 Отзывы', `reviews_r_${key}`)
+          ],
+          [Markup.button.callback('🔙 Все услуги', 'menu_renovation')]
+        ])
+      }
+    );
+  } catch (e) {
+    console.error('Error editing message:', e);
+    await ctx.answerCbQuery('⚠️ Ошибка загрузки');
+  }
 });
 
 // Запуск заявки на ремонт
 bot.action(/^ord_r_(.+)$/, async (ctx) => {
   const key = ctx.match[1];
   const item = RENOVATION[key];
-  await ctx.deleteMessage().catch(() => {});
   await ctx.scene.enter('ORDER_SCENE', {
     interest: item.name,
     type: 'renovation',
@@ -663,20 +664,24 @@ bot.action(/^ord_r_(.+)$/, async (ctx) => {
 // Отзывы по ремонту
 bot.action('reviews_renovation', async (ctx) => {
   const renovationReviews = REVIEWS.filter(r => r.service.includes('Ремонт') || r.service.includes('Санузел'));
-  
+
   let reviewText = '<b>⭐️ ОТЗЫВЫ О РЕМОНТЕ</b> ';
   renovationReviews.forEach(r => {
     reviewText += `${r.rating} <b>${r.name}</b> — ${r.date} <i>${r.service}</i> "${r.text}" ━━━━━━━━━━ `;
   });
   reviewText += `📊 Средняя оценка: <b>4.9/5</b> (${renovationReviews.length} отзыва)`;
-  
-  await ctx.editMessageCaption(reviewText, {
-    parse_mode: 'HTML',
-    reply_markup: Markup.inlineKeyboard([
-      [Markup.button.url('Смотреть все на 2GIS', 'https://2gis.ru/')],
-      [Markup.button.callback('🔙 Назад', 'menu_renovation')]
-    ])
-  });
+
+  try {
+    await ctx.editMessageText(reviewText, {
+      parse_mode: 'HTML',
+      reply_markup: Markup.inlineKeyboard([
+        [Markup.button.url('Смотреть все на 2GIS', 'https://2gis.ru/')],
+        [Markup.button.callback('🔙 Назад', 'menu_renovation')]
+      ])
+    });
+  } catch (e) {
+    console.error('Error editing message:', e);
+  }
 });
 
 // ============================================
@@ -691,9 +696,9 @@ bot.action('reviews', async (ctx) => {
   });
   reviewText += `📊 <b>Средняя оценка: 4.9 из 5</b> `;
   reviewText += `💬 Всего отзывов: 124`;
-  
+
   try {
-    await ctx.editMessageCaption(reviewText, {
+    await ctx.editMessageText(reviewText, {
       parse_mode: 'HTML',
       reply_markup: Markup.inlineKeyboard([
         [Markup.button.url('📍 Яндекс.Карты', 'https://yandex.ru/maps/')],
@@ -703,15 +708,7 @@ bot.action('reviews', async (ctx) => {
       ])
     });
   } catch (e) {
-    // Если нет картинки - отправляем текстом
-    await ctx.reply(reviewText, {
-      parse_mode: 'HTML',
-      reply_markup: Markup.inlineKeyboard([
-        [Markup.button.url('📍 Яндекс.Карты', 'https://yandex.ru/maps/')],
-        [Markup.button.url('📍 2GIS', 'https://2gis.ru/')],
-        [Markup.button.callback('🔙 В главное меню', 'back_home')]
-      ])
-    });
+    console.error('Error editing message:', e);
   }
 });
 
@@ -719,7 +716,7 @@ bot.action('reviews', async (ctx) => {
 bot.action(['portfolio', 'portfolio_ceilings', 'portfolio_renovation'], async (ctx) => {
   const action = ctx.callbackQuery.data;
   let caption = '';
-  
+
   if (action === 'portfolio_ceilings') {
     caption = '📸 <b>НАШИ РАБОТЫ: НАТЯЖНЫЕ ПОТОЛКИ</b> ' +
       'Более 2000 установленных потолков за 2024 год. ' +
@@ -734,9 +731,9 @@ bot.action(['portfolio', 'portfolio_ceilings', 'portfolio_renovation'], async (c
       '🏗 Ремонт квартир — 350+ объектов ' +
       'Смотрите реальные фото в Instagram:';
   }
-  
+
   try {
-    await ctx.editMessageCaption(caption, {
+    await ctx.editMessageText(caption, {
       parse_mode: 'HTML',
       reply_markup: Markup.inlineKeyboard([
         [Markup.button.url('📱 Открыть Instagram', 'https://instagram.com/potolkoff_03')],
@@ -745,69 +742,70 @@ bot.action(['portfolio', 'portfolio_ceilings', 'portfolio_renovation'], async (c
       ])
     });
   } catch (e) {
-    await ctx.reply(caption, {
-      parse_mode: 'HTML',
-      reply_markup: Markup.inlineKeyboard([
-        [Markup.button.url('📱 Instagram', 'https://instagram.com/potolkoff_03')],
-        [Markup.button.callback('🔙 Назад', 'back_home')]
-      ])
-    });
+    console.error('Error editing message:', e);
   }
 });
 
 // Акции
 bot.action('promo', async (ctx) => {
-  await ctx.editMessageCaption(
-    `🎁 <b>АКЦИИ ФЕВРАЛЯ 2026</b> ` +
-    `1️⃣ <b>При заказе потолков:</b> ` +
-    ` 🎁 2 встроенных светильника в подарок ` +
-    ` 🎁 Бесплатный выезд замерщика ` +
-    ` 💰 Скидка 5% при заказе сегодня ` +
-    `2️⃣ <b>При ремонте под ключ:</b> ` +
-    ` 🎁 Дизайн-проект бесплатно (экономия 45.000₽) ` +
-    ` 🎁 Клининг после ремонта в подарок ` +
-    ` 💰 Скидка 7% при оплате за 2 этапа ` +
-    `3️⃣ <b>Рассрочка 0%</b> на 6-12 месяцев ` +
-    `⏰ Акции действуют до: <b>${getPromoTimeLeft()}</b> ` +
-    `<i>Условия акций уточняйте у менеджера</i>`,
-    {
-      parse_mode: 'HTML',
-      reply_markup: Markup.inlineKeyboard([
-        [Markup.button.callback('✨ Потолки со скидкой', 'menu_ceilings')],
-        [Markup.button.callback('🏗 Ремонт с бонусами', 'menu_renovation')],
-        [Markup.button.callback('🔙 В главное меню', 'back_home')]
-      ])
-    }
-  );
+  try {
+    await ctx.editMessageText(
+      `🎁 <b>АКЦИИ ФЕВРАЛЯ 2026</b> ` +
+      `1️⃣ <b>При заказе потолков:</b> ` +
+      ` 🎁 2 встроенных светильника в подарок ` +
+      ` 🎁 Бесплатный выезд замерщика ` +
+      ` 💰 Скидка 5% при заказе сегодня ` +
+      `2️⃣ <b>При ремонте под ключ:</b> ` +
+      ` 🎁 Дизайн-проект бесплатно (экономия 45.000₽) ` +
+      ` 🎁 Клининг после ремонта в подарок ` +
+      ` 💰 Скидка 7% при оплате за 2 этапа ` +
+      `3️⃣ <b>Рассрочка 0%</b> на 6-12 месяцев ` +
+      `⏰ Акции действуют до: <b>${getPromoTimeLeft()}</b> ` +
+      `<i>Условия акций уточняйте у менеджера</i>`,
+      {
+        parse_mode: 'HTML',
+        reply_markup: Markup.inlineKeyboard([
+          [Markup.button.callback('✨ Потолки со скидкой', 'menu_ceilings')],
+          [Markup.button.callback('🏗 Ремонт с бонусами', 'menu_renovation')],
+          [Markup.button.callback('🔙 В главное меню', 'back_home')]
+        ])
+      }
+    );
+  } catch (e) {
+    console.error('Error editing message:', e);
+  }
 });
 
 // Калькулятор
 bot.action('calculator', async (ctx) => {
-  await ctx.editMessageCaption(
-    `🧮 <b>БЫСТРЫЙ КАЛЬКУЛЯТОР</b> ` +
-    `<b>НАТЯЖНЫЕ ПОТОЛКИ:</b> ` +
-    `• 20 м² × 2000₽ = <b>40.000₽</b> ` +
-    `• 30 м² × 2000₽ = <b>60.000₽</b> ` +
-    `• 40 м² × 2000₽ = <b>80.000₽</b> ` +
-    `• 50 м² × 2000₽ = <b>100.000₽</b> ` +
-    `<b>РЕМОНТ ПОД КЛЮЧ:</b> ` +
-    `• 35 м² × 15.000₽ = <b>525.000₽</b> ` +
-    `• 55 м² × 15.000₽ = <b>825.000₽</b> ` +
-    `• 75 м² × 15.000₽ = <b>1.125.000₽</b> ` +
-    `<i>⚠️ Это примерные расчёты. Точную смету подготовит замерщик бесплатно!</i>`,
-    {
-      parse_mode: 'HTML',
-      reply_markup: Markup.inlineKeyboard([
-        [Markup.button.callback('📏 Вызвать замерщика', 'call_measurer')],
-        [Markup.button.callback('🔙 В главное меню', 'back_home')]
-      ])
-    }
-  );
+  try {
+    await ctx.editMessageText(
+      `🧮 <b>БЫСТРЫЙ КАЛЬКУЛЯТОР</b> ` +
+      `<b>НАТЯЖНЫЕ ПОТОЛКИ:</b> ` +
+      `• 20 м² × 2000₽ = <b>40.000₽</b> ` +
+      `• 30 м² × 2000₽ = <b>60.000₽</b> ` +
+      `• 40 м² × 2000₽ = <b>80.000₽</b> ` +
+      `• 50 м² × 2000₽ = <b>100.000₽</b> ` +
+      `<b>РЕМОНТ ПОД КЛЮЧ:</b> ` +
+      `• 35 м² × 15.000₽ = <b>525.000₽</b> ` +
+      `• 55 м² × 15.000₽ = <b>825.000₽</b> ` +
+      `• 75 м² × 15.000₽ = <b>1.125.000₽</b> ` +
+      `<i>⚠️ Это примерные расчёты. Точную смету подготовит замерщик бесплатно!</i>`,
+      {
+        parse_mode: 'HTML',
+        reply_markup: Markup.inlineKeyboard([
+          [Markup.button.callback('📏 Вызвать замерщика', 'call_measurer')],
+          [Markup.button.callback('🔙 В главное меню', 'back_home')]
+        ])
+      }
+    );
+  } catch (e) {
+    console.error('Error editing message:', e);
+  }
 });
 
 // Вызов замерщика через калькулятор
 bot.action('call_measurer', async (ctx) => {
-  await ctx.deleteMessage().catch(() => {});
   await ctx.scene.enter('ORDER_SCENE', {
     interest: 'Вызов замерщика (бесплатно)',
     type: 'ceiling'
@@ -816,33 +814,37 @@ bot.action('call_measurer', async (ctx) => {
 
 // Контакты
 bot.action('info', async (ctx) => {
-  await ctx.editMessageCaption(
-    `🏢 <b>КОНТАКТЫ ПОТОЛКОФ</b> ` +
-    `📍 <b>Адрес:</b> ` +
-    `г. Улан-Удэ, ул. Примерная, 15 ` +
-    `(вход со двора, 2 этаж) ` +
-    `📞 <b>Телефон:</b> ` +
-    `+7 (983) 420-88-05 ` +
-    `⏰ <b>Режим работы:</b> ` +
-    `Пн-Пт: 9:00 - 18:00 ` +
-    `Сб: 10:00 - 16:00 ` +
-    `Вс: выходной ` +
-    `💬 <b>Telegram:</b> @potolkoff_manager ` +
-    `📧 <b>Email:</b> info@potolkoff.ru ` +
-    `<b>💼 Работаем официально:</b> ` +
-    `• Договор с фиксацией цены ` +
-    `• Гарантия на работы ` +
-    `• Безналичный расчёт ` +
-    `• Рассрочка 0%`,
-    {
-      parse_mode: 'HTML',
-      reply_markup: Markup.inlineKeyboard([
-        [Markup.button.url('📍 Открыть на карте', 'https://yandex.ru/maps/')],
-        [Markup.button.url('📱 Написать в WhatsApp', 'https://wa.me/79834208805')],
-        [Markup.button.callback('🔙 В главное меню', 'back_home')]
-      ])
-    }
-  );
+  try {
+    await ctx.editMessageText(
+      `🏢 <b>КОНТАКТЫ ПОТОЛКОФ</b> ` +
+      `📍 <b>Адрес:</b> ` +
+      `г. Улан-Удэ, ул. Примерная, 15 ` +
+      `(вход со двора, 2 этаж) ` +
+      `📞 <b>Телефон:</b> ` +
+      `+7 (983) 420-88-05 ` +
+      `⏰ <b>Режим работы:</b> ` +
+      `Пн-Пт: 9:00 - 18:00 ` +
+      `Сб: 10:00 - 16:00 ` +
+      `Вс: выходной ` +
+      `💬 <b>Telegram:</b> @potolkoff_manager ` +
+      `📧 <b>Email:</b> info@potolkoff.ru ` +
+      `<b>💼 Работаем официально:</b> ` +
+      `• Договор с фиксацией цены ` +
+      `• Гарантия на работы ` +
+      `• Безналичный расчёт ` +
+      `• Рассрочка 0%`,
+      {
+        parse_mode: 'HTML',
+        reply_markup: Markup.inlineKeyboard([
+          [Markup.button.url('📍 Открыть на карте', 'https://yandex.ru/maps/')],
+          [Markup.button.url('📱 Написать в WhatsApp', 'https://wa.me/79834208805')],
+          [Markup.button.callback('🔙 В главное меню', 'back_home')]
+        ])
+      }
+    );
+  } catch (e) {
+    console.error('Error editing message:', e);
+  }
 });
 
 // ============================================
@@ -854,7 +856,7 @@ bot.on('text', async (ctx) => {
   if (ctx.from.id.toString() === process.env.ADMIN_ID && ctx.message.reply_to_message) {
     const originalText = ctx.message.reply_to_message.text || ctx.message.reply_to_message.caption;
     if (!originalText) return;
-    
+
     // Ищем ID клиента в хэштеге #id123456
     const match = originalText.match(/#id(\d+)/);
     if (match) {
@@ -892,7 +894,7 @@ const WEBHOOK_URL = process.env.WEBHOOK_URL || (process.env.RAILWAY_PUBLIC_DOMAI
 
 app.listen(PORT, async () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  
+
   if (WEBHOOK_URL) {
     try {
       await bot.telegram.deleteWebhook({ drop_pending_updates: true });
